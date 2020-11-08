@@ -6,7 +6,7 @@ function Login(props) {
   const [inputValues, setInputValues] = React.useState({
     email: { value: '', validationMessage: true },
     password: { value: '', validationMessage: true },
-    isFormValid: true,
+    isFormValid: false,
   });
 
   const handleInputChange = (e) => {
@@ -39,8 +39,6 @@ function Login(props) {
             id='input-login-email'
             className='auth__input auth__input_field_email'
             required
-            minLength='2'
-            maxLength='40'
             value={inputValues.email.value}
             onChange={handleInputChange}
             placeholder='Email'

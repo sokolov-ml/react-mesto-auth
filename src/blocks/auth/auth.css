@@ -1,4 +1,7 @@
 @import url(./__heading/auth__heading.css);
+
+@import url(./__form/auth__form.css);
+@import url(./__field/auth__field.css);
 @import url(./__input/auth__input.css);
 @import url(./__input-error/auth__input-error.css);
 @import url(./__submit/auth__submit.css);

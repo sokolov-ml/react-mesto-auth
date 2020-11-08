@@ -9,6 +9,11 @@
   text-align: center;
 
   color: #ffffff;
+
+  position: absolute;
+  width: 100%;
+  top: calc(100% - 2px);
+  left: 0;
 }
 
 .auth__link:hover {

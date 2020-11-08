@@ -1,0 +1,15 @@
+.header__menu {
+  display: flex;
+  flex-flow: row nowrap;
+
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height, or 122% */
+
+  text-align: right;
+
+  /* color: #FFFFFF; */
+}
