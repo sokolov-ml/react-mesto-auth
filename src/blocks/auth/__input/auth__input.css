@@ -1,0 +1,32 @@
+.auth__input {
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #ffffff;
+
+  background: none;
+
+  width: 100%;
+  border: none;
+  display: block;
+  box-sizing: border-box;
+
+  padding-bottom: 13px;
+  border-bottom: 2px solid #ccc;
+
+  margin: 30px 0 0;
+}
+
+.auth__input:invalid {
+  border-bottom: 1px solid red; /* красная рамка для некорректных данных */
+}
+
+@media screen and (max-width: 500px) {
+  .auth__input {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

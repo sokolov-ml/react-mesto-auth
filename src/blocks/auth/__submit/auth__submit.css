@@ -1,0 +1,46 @@
+.auth__submit {
+  min-height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+
+  border: none;
+  background: #fff;
+  border-radius: 2px;
+
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+
+  color: #000;
+
+  margin: 216px 0 0 0;
+}
+
+.auth__submit:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.auth__submit:disabled {
+  opacity: 0.2;
+  /* background: none; */
+  border: none;
+  /* border: 1px solid #000000; */
+
+  pointer-events: none;
+}
+
+@media screen and (max-width: 500px) {
+  .auth__submit {
+    font-size: 14px;
+    line-height: 17px;
+    min-height: 40px;
+  }
+}
