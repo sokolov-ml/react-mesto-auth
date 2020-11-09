@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Login(props) {
+function Login({ onLogin, ...props }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [inputValues, setInputValues] = React.useState({
@@ -28,9 +28,21 @@ function Login(props) {
     });
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    onLogin(
+      {
+        email: inputValues.email.value,
+        password: inputValues.password.value,
+      },
+      setIsLoading,
+    );
+  }
+
   return (
     <section className='auth'>
-      <form className='auth__form auth__form_login' name='login' onSubmit={props.onSubmit}>
+      <form className='auth__form auth__form_login' name='login' onSubmit={handleSubmit}>
         <h2 className='auth__heading'>Вход</h2>
         <label htmlFor='input-login-email' className='auth__field'>
           <input

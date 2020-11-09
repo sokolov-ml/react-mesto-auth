@@ -7,12 +7,13 @@
   /* identical to box height */
 
   text-align: center;
+  text-decoration: none;
 
   color: #ffffff;
 
   position: absolute;
   width: 100%;
-  top: calc(100% - 2px);
+  top: calc(100% + 20px);
   left: 0;
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Route, Switch, useLocation, useHistory } from 'react-router-dom';
+import { Route, Switch, useLocation, Link, useHistory } from 'react-router-dom';
 
 import api from './components/utils/Api';
+import auth from './components/utils/Auth';
 
 import Header from './components/Header';
 import Main from './components/Main';
@@ -29,15 +30,19 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isRemoveCardPopupOpen, setIsRemoveCardPopupOpen] = React.useState(false);
   const [isViewCardPopupOpen, setIsViewCardPopupOpen] = React.useState(false);
-  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(true);
+  const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = React.useState(false);
 
-  const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(true);
+  const [infoTooltipStatus, setInfoTooltipStatus] = React.useState(true);
+
+  const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState();
   const [currentUser, setCurrentUser] = React.useState({ name: '', about: '', avatar: imgAvatar });
   // const currentUser = React.createContext();
 
   const [cards, setCards] = React.useState([]);
+
+  let history = useHistory();
 
   React.useEffect(() => {
     // setInterval(getCards, 10000);
@@ -185,20 +190,52 @@ function App() {
       });
   }
 
+  function handleLogin(obj, func) {
+    auth
+      .signin(obj.email, obj.password)
+      .then((data) => {
+        setIsUserLoggedIn(true);
+        history.push('/');
+      })
+      .catch(() => {
+        console.error('can`t login');
+        setInfoTooltipStatus(false);
+        setIsInfoTooltipPopupOpen(true);
+      })
+      .finally(() => {
+        func(false);
+      });
+  }
+
+  function handleRegister(obj, func) {
+    auth
+      .signup(obj.email, obj.password)
+      .then((data) => {
+        setIsUserLoggedIn(true);
+        history.push('/');
+        setInfoTooltipStatus(true);
+        setIsInfoTooltipPopupOpen(true);
+      })
+      .catch(() => {
+        console.error('can`t register');
+        setInfoTooltipStatus(false);
+        setIsInfoTooltipPopupOpen(true);
+      })
+      .finally(() => {
+        func(false);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='content'>
         <Header logo={logo} />
         <Switch>
           <Route path='/sign-in'>
-            <div className='loginContainer'>
-              <Login />
-            </div>
+            <Login onLogin={handleLogin} />
           </Route>
           <Route path='/sign-up'>
-            <div className='registerContainer'>
-              <Register />
-            </div>
+            <Register onRegister={handleRegister} />
           </Route>
 
           <ProtectedRoute path='/' loggedIn={isUserLoggedIn}>
@@ -241,16 +278,14 @@ function App() {
                 isOpen={isViewCardPopupOpen}
                 onClose={closeAllPopups}
               ></PopupWithImage>
-
-              <InfoTooltip
-                isOpen={isInfoTooltipPopupOpen}
-                onClose={closeAllPopups}
-                isSuccess={true}
-              ></InfoTooltip>
             </Main>
           </ProtectedRoute>
         </Switch>
-
+        <InfoTooltip
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          isSuccess={infoTooltipStatus}
+        ></InfoTooltip>
         <Footer />
       </div>
     </CurrentUserContext.Provider>

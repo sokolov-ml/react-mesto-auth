@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Register(props) {
+function Register({ onRegister, ...props }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [inputValues, setInputValues] = React.useState({
@@ -28,9 +29,21 @@ function Register(props) {
     });
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    onRegister(
+      {
+        email: inputValues.email.value,
+        password: inputValues.password.value,
+      },
+      setIsLoading,
+    );
+  }
+
   return (
     <section className='auth'>
-      <form className='auth__form auth__form_login' name='login' onSubmit={props.onSubmit}>
+      <form className='auth__form auth__form_login' name='login' onSubmit={handleSubmit}>
         <h2 className='auth__heading'>Регистрация</h2>
         <label htmlFor='input-login-email' className='auth__field'>
           <input
@@ -67,7 +80,10 @@ function Register(props) {
         <button type='submit' className='auth__submit' disabled={!inputValues.isFormValid}>
           {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
         </button>
-        <p className='auth__link'>Уже зарегистрированы? Войти</p>
+
+        <Link className='auth__link' to='/sign-in'>
+          Уже зарегистрированы? Войти
+        </Link>
       </form>
     </section>
   );

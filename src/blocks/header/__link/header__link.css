@@ -1,4 +1,4 @@
-.header__button {
+.header__link {
   margin-left: 24px;
 
   background: none;
@@ -6,8 +6,9 @@
   cursor: pointer;
   color: #fff;
   outline: none;
+  text-decoration: none;
 }
 
-.header__button:hover {
+.header__link:hover {
   opacity: 0.8;
 }
