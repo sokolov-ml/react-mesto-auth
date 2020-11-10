@@ -37,7 +37,12 @@ function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState();
-  const [currentUser, setCurrentUser] = React.useState({ name: '', about: '', avatar: imgAvatar });
+  const [currentUser, setCurrentUser] = React.useState({
+    name: '',
+    about: '',
+    auth: {},
+    avatar: imgAvatar,
+  });
   // const currentUser = React.createContext();
 
   const [cards, setCards] = React.useState([]);
@@ -47,7 +52,7 @@ function App() {
   React.useEffect(() => {
     // setInterval(getCards, 10000);
     getCards();
-  }, []);
+  }, [isUserLoggedIn]);
 
   function getCards() {
     api
@@ -61,15 +66,30 @@ function App() {
   }
 
   React.useEffect(() => {
-    api
-      .getCurrentUserInfo()
-      .then((result) => {
-        setCurrentUser(result);
+    auth
+      .checkCurrentToken()
+      .then(({ data }) => {
+        if (data) {
+          setIsUserLoggedIn(true);
+          history.push('/');
+          return data;
+        }
       })
-      .catch(() => {
-        console.error('can`t get userInfo');
+      .then((data) => {
+        api
+          .getCurrentUserInfo()
+          .then((result) => {
+            console.log({ auth: data, ...result });
+            setCurrentUser({ auth: data, ...result });
+          })
+          .catch(() => {
+            console.error('can`t get userInfo');
+          });
+      })
+      .catch((err) => {
+        console.error('something wrong');
       });
-  }, []);
+  }, [isUserLoggedIn]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -207,12 +227,18 @@ function App() {
       });
   }
 
+  function handleLogoff() {
+    localStorage.removeItem('token');
+    setIsUserLoggedIn(false);
+    history.push('/');
+  }
+
   function handleRegister(obj, func) {
     auth
       .signup(obj.email, obj.password)
       .then((data) => {
         setIsUserLoggedIn(true);
-        history.push('/');
+        history.push('/signin');
         setInfoTooltipStatus(true);
         setIsInfoTooltipPopupOpen(true);
       })
@@ -229,12 +255,12 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='content'>
-        <Header logo={logo} />
+        <Header logo={logo} onLogoff={handleLogoff} />
         <Switch>
-          <Route path='/sign-in'>
+          <Route path='/signin'>
             <Login onLogin={handleLogin} />
           </Route>
-          <Route path='/sign-up'>
+          <Route path='/signup'>
             <Register onRegister={handleRegister} />
           </Route>
 

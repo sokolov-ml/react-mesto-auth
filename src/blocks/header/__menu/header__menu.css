@@ -1,5 +1,6 @@
 .header__menu {
   display: flex;
+  align-items: center;
   flex-flow: row nowrap;
 
   font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;

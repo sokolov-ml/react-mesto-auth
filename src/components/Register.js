@@ -81,7 +81,7 @@ function Register({ onRegister, ...props }) {
           {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
         </button>
 
-        <Link className='auth__link' to='/sign-in'>
+        <Link className='auth__link' to='/signin'>
           Уже зарегистрированы? Войти
         </Link>
       </form>

@@ -43,7 +43,7 @@ class Auth {
     });
   }
 
-  getCurrentUserInfo(token) {
+  checkCurrentToken() {
     return this._fetch(this._path.user);
   }
 }
